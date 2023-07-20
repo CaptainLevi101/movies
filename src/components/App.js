@@ -14,14 +14,15 @@ class App extends React.Component {
         // console.log(data.results);
         //dispatch action in here
         store.dispatch(addMovies(data.results));
-        console.log('STAtE',store.getState());
+        // console.log('STAtE',store.getState());
     }
     onChangeTab=(val)=>{
         this.props.store.dispatch(setShowFavourites(val));
     }
     render() {
-        console.log(this.props.store.getState());
-        const {list,favourites,showFavourites} = this.props.store.getState();
+        const {movies}=this.props.store.getState();
+        // console.log(movies);
+        const {list,favourites,showFavourites} = movies;
          //list[]+fav[]
         const displayMovies=showFavourites?favourites:list;
         console.log(list);
