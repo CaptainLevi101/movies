@@ -2,6 +2,7 @@ import React from "react";
 import Navbar from "./Navbar";
 import { data } from "../data";
 import MovieCard from "./MovieCard";
+import { addMovies } from "../actions";
 class App extends React.Component {
 
     componentDidMount() {
@@ -12,15 +13,14 @@ class App extends React.Component {
         })
         // console.log(data.results);
         //dispatch action in here
-        store.dispatch({
-            type: 'ADD_MOVIES',
-            movies: data.results
-        })
-        console.log('STAtE',this.props.store.getState());
+        store.dispatch(addMovies(data.results));
+        console.log('STAtE',store.getState());
     }
     render() {
-        const data = this.props.store.getState();
-       console.log(data);
+        console.log(this.props.store.getState());
+        const {list} = this.props.store.getState();
+        const {favourites} = this.props.store.getState(); //list[]+fav[]
+        console.log(list);
         return (<>
             <Navbar />
             <div className="main">
@@ -29,7 +29,7 @@ class App extends React.Component {
                     <div className="tab">Favourites</div>
                 </div>
                 <div className="list">
-                    {data.map(movie => (<MovieCard movie={movie} key={movie.id} />))}
+                    {list.map(movie => (<MovieCard movie={movie} key={movie.id} dispatch={this.props.store.dispatch} favourites={favourites}/>))}
                 </div>
             </div>
         </>);
