@@ -1,7 +1,7 @@
-import { ADD_MOVIES,ADD_FAVOURITE } from "../actions";
-const initialMovieState={
-   list:[],
-   favourites:[]
+import { ADD_MOVIES, ADD_FAVOURITE, REMOVE_FROM_FAVOURITE } from "../actions";
+const initialMovieState = {
+   list: [],
+   favourites: []
 }
 export default function movies(state = initialMovieState, action) {
 
@@ -12,19 +12,27 @@ export default function movies(state = initialMovieState, action) {
    //    };
    // }
    // return state;
-   switch(action.type){
+   switch (action.type) {
       case ADD_MOVIES:
-         return  {
-                  ...state,
-                  list:[...action.movies]
-               }
+         return {
+            ...state,
+            list: [...action.movies]
+         }
       case ADD_FAVOURITE:
          return {
-                ...state,
-                favourites:[action.movie,...state.favourites]
+            ...state,
+            favourites: [action.movie, ...state.favourites]
+         }
+      case REMOVE_FROM_FAVOURITE:
+         const filteredArray=state.favourites.filter(
+            movie=>movie.original_title!=action.movie.title
+         );
+         return {
+            ...state,
+            favourites: filteredArray
          }
       default:
-        return state
+         return state
    }
 }
 //action type variables
