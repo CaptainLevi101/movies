@@ -2,6 +2,7 @@ import React from "react";
 import '../css/navbar.css';
 import logo from "../images/logo.png";
 import { addMovieToList, handleMovieSearch } from "../actions";
+import { StoreContext } from "..";
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
@@ -27,11 +28,11 @@ class Navbar extends React.Component {
         e.preventDefault();
         const { searchText } = this.state;
         console.log(searchText);
-        this.props.dispatch(handleMovieSearch(searchText));
+        this.props.store.dispatch(handleMovieSearch(searchText));
 
     }
     render() {
-        const { result,showSearchResults} = this.props.search;
+        const { result,showSearchResults} = this.props.store.getState().search;
         return (<>
             <nav className="navbar">
                 <div className="navbar-left">
@@ -61,4 +62,11 @@ class Navbar extends React.Component {
         </>);
     }
 }
-export default Navbar;
+class NavbarWrapper extends React.Component{
+    render(){
+        return (<StoreContext.Consumer>
+            {(store)=><Navbar store={store}/>}
+        </StoreContext.Consumer>);
+    }
+}
+export default NavbarWrapper;

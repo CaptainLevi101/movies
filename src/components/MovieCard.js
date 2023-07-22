@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/moviecard.css';
 import { addFavourite, removeFromFavourite } from "../actions";
+import { StoreContext } from "..";
 class MovieCard extends React.Component {
     handleFavourite=()=>{
         const {movie}=this.props;
@@ -48,4 +49,5 @@ class MovieCard extends React.Component {
         );
     }
 }
-export default MovieCard
+
+export default MovieCard;

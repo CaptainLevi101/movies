@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import { data } from "../data";
 import MovieCard from "./MovieCard";
 import { addMovies,setShowFavourites } from "../actions";
+import { StoreContext } from "../index";
 class App extends React.Component {
 
     componentDidMount() {
@@ -13,6 +14,7 @@ class App extends React.Component {
         })
         // console.log(data.results);
         //dispatch action in here
+        
         store.dispatch(addMovies(data.results));
         // console.log('STAtE',store.getState());
     }
@@ -20,17 +22,18 @@ class App extends React.Component {
         this.props.store.dispatch(setShowFavourites(val));
     }
     render() {
+        console.log(this.props);
         const {movies,search}=this.props.store.getState();
         // console.log(movies);
         const {list,favourites,showFavourites} = movies;
-        console.log(list);
-        console.log(favourites);
-        console.log(showFavourites);
+        // console.log(list);
+        // console.log(favourites);
+        // console.log(showFavourites);
          //list[]+fav[]
         const displayMovies=showFavourites?favourites:list;
         // console.log(list);
         return (<>
-            <Navbar dispatch={this.props.store.dispatch} search={search}/>
+            <Navbar/>
             <div className="main">
                 <div className="tabs">
                     <div className={`tab ${showFavourites?'':'active-tab'}`} onClick={()=>this.onChangeTab(false)}>Movies</div>
@@ -46,4 +49,13 @@ class App extends React.Component {
         </>);
     }
 }
-export default App;
+class AppWrapper extends React.Component {
+    render(){
+        return(
+        <StoreContext.Consumer>
+            {(store)=><App store={store}/>}
+        </StoreContext.Consumer>
+        );
+    }
+}
+export default AppWrapper;
