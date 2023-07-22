@@ -23,19 +23,19 @@ class MovieCard extends React.Component {
     }
     render() {
     const {movie}=this.props;
-      const x=movie.release_date.split('-').reverse().join('-');
+    
         // const {title,genre,year,rating,runtime}=this.movie;
         return (
             <>
                 <div className="movie-container">
                     <div className="movie-image">
-                        {<img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} alt="Movie Poster" />}
+                        {<img src={movie.Poster} alt="Movie Poster" />}
                     </div>
                     <div className="movie-details">
-                        <h2>{movie.original_title}</h2>
-                        <p>release date:{x}</p>
-                        <p>Rating:{movie.vote_average}</p>
-                        <p>{movie.overview}</p>
+                        <h2>{movie.Title}</h2>
+                        <p>release :{movie.Year}</p>
+                        <p>Genre:{movie.Genre[0]+','+movie.Genre[1]}</p>
+                        <p>{movie.Plot}</p>
                         {
                             this.isMovieFavourite()
                             ?<button className="Unfavorite-button" onClick={this.handleUnFavourite}>Remove from Favorites</button>:

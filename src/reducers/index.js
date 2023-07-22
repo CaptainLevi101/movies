@@ -67,7 +67,11 @@ function search(state = initialSearchState, action) {
          return {
             ...state,
             result:action.movie,
-            showSearchResults:true
+            showSearchResults:true,
+         }
+      case ADD_MOVIE_TO_LIST:
+         return {
+            showSearchResults:false,
          }
       default:
          return state;

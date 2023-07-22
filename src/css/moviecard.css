@@ -12,10 +12,11 @@
   }
   
   .movie-image img {
-    max-width: 100%;
-    height: auto;
+    max-width: auto;
+    height: 160px;
     display: block;
     border-radius: 5px;
+   margin-left: 20px;
   }
   
   .movie-details {

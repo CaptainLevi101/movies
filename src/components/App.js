@@ -5,6 +5,7 @@ import MovieCard from "./MovieCard";
 import { addMovies,setShowFavourites } from "../actions";
 import { StoreContext } from "../index";
 import { connect } from "../index";
+import '../css/App.css'
 class App extends React.Component {
 
     componentDidMount() {
@@ -32,12 +33,13 @@ class App extends React.Component {
                     <div className={`tab ${showFavourites?'':'active-tab'}`} onClick={()=>this.onChangeTab(false)}>Movies</div>
                     <div className={`tab ${showFavourites?'active-tab' :''}`}  onClick={()=>this.onChangeTab(true)}>Favourites</div>
                 </div>
+                
                 <div className="list">
                     {displayMovies.map(movie => (<MovieCard movie={movie} key={movie.id} dispatch={this.props.dispatch} favourites={favourites}/>))}
                 </div>
 
                 {displayMovies.length===0 ? <div className="no-movies">No Movies to display</div>:null}
-
+              
             </div>
         </>);
     }

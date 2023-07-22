@@ -3,6 +3,8 @@ import '../css/navbar.css';
 import logo from "../images/logo.png";
 import { addMovieToList, handleMovieSearch } from "../actions";
 import { StoreContext } from "..";
+import '../css/moviecard.css';
+import { connect } from "../index";
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
@@ -10,10 +12,10 @@ class Navbar extends React.Component {
             searchText: ''
         }
     }
-    handleAddtoMovies = (movie,e) => {
-      
+    handleAddtoMovies = (movie, e) => {
+
         this.props.dispatch(addMovieToList(movie));
-        console.log('handle',movie)
+        console.log('handle', movie)
         this.setState({
             showSearchResults: false
         })
@@ -28,45 +30,59 @@ class Navbar extends React.Component {
         e.preventDefault();
         const { searchText } = this.state;
         console.log(searchText);
-        this.props.store.dispatch(handleMovieSearch(searchText));
+        this.props.dispatch(handleMovieSearch(searchText));
 
     }
     render() {
-        const { result,showSearchResults} = this.props.store.getState().search;
+        const { result, showSearchResults } = this.props.search;
         return (<>
-            <nav className="navbar">
+        <div className="wrap">
+            <div className="navbar">
                 <div className="navbar-left">
                     <a href="#" className="logo"><img src={logo} /></a>
                 </div>
-                
+
                 <div className="navbar-right">
                     <div className="search-form">
                         <input type="text" placeholder="Search" onChange={this.handleChange} />
                         <button type="submit" onClick={this.handleSearch}>Search</button>
-                        {showSearchResults &&
-                    <div className="search-results">
-                        <div className="search-result">
-                            <img src={result.Poster} alt="search-pic"/>
-                            <div className="movie-info">
-                                <span>{result.Title}</span>
-                                <button onClick={(e)=>this.handleAddtoMovies(result)}>
-                                    Add to movies
-                                </button>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+            </div>
+            <div className="cont-2">
+            {showSearchResults &&
+                            <div className="movie-container">
+                                <div className="movie-image">
+                                    {<img src={result.Poster} alt="Movie Poster" />}
+                                </div>
+                                <div className="movie-details" style={{color:"white"}}>
+                                    <h2 >{result.Title}</h2>
+                                    <p >{result.Plot}</p>
+                                                <button  styles={{color:"white"}}onClick={(e) => this.handleAddtoMovies(result)}>
+                                                    Add to movies
+                                                </button>
+                                            </div>
+                                        </div>
+                               
                     }
-                    </div>
-                </div>
-            </nav>
-        </>);
+            </div>
+             </div>   
+                </>);
     }
 }
-class NavbarWrapper extends React.Component{
-    render(){
-        return (<StoreContext.Consumer>
-            {(store)=><Navbar store={store}/>}
-        </StoreContext.Consumer>);
-    }
-}
-export default NavbarWrapper;
+// class NavbarWrapper extends React.Component{
+                    //     render(){
+                    //         return (<StoreContext.Consumer>
+                    //             {(store)=><Navbar store={store}/>}
+                    //         </StoreContext.Consumer>);
+                    //     }
+                    // }
+                    function callback(state) {
+                        return {
+                            movies: state.movies,
+                            search: state.search
+                        };
+                    }
+const connectedNavbarComponent=connect(callback)(Navbar);
+                export default connectedNavbarComponent;
+// export default NavbarWrapper;
